@@ -49,7 +49,7 @@ class Comment(Model):
     created_at = FloatField(default=time.time)
 
 class FBUser(Model):
-    __table__ = 'TBUsers'
+    __table__ = 'FBUsers'
 
     id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
     email = StringField(ddl='varchar(50)')
@@ -60,4 +60,4 @@ class FBUser(Model):
     age = FloatField(time.time)
     Number = TinyIntegerField(default=0)
     created_at = FloatField(default=time.time)
-
+#end user
