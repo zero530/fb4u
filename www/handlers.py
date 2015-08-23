@@ -326,10 +326,10 @@ def api_get_fbusers(*, page='1'):
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, users=())
-    users = yield from FBUser.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
-    for u in FBUser:
+    fbusers = yield from FBUser.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
+    for u in fbusers:
         u.passwd = '******'
-    return dict(page=p, users=users)
+    return dict(page=p, users=fbusers)
 
 @post('/api/fbusers')
 def api_register_fbuser(*, email, name, passwd):
@@ -353,6 +353,19 @@ def api_register_fbuser(*, email, name, passwd):
     r.content_type = 'application/json'
     r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
     return r
+
+@get('/registerFB')
+def registerFB():
+    return {
+        '__template__': 'registerFB.html'
+    }
+
+@get('/home')
+def home():
+    return {
+        '__template__': '4u_home.html'
+    }
+
 
 _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$')
 _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
