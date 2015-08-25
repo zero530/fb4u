@@ -9,7 +9,7 @@ __author__ = 'Michael Liao'
 
 import time, uuid
 
-from orm import Model, StringField, BooleanField, FloatField, TextField, TinyIntegerField
+from orm import Model, StringField, BooleanField, FloatField, TextField, TinyIntegerField, DateField
 
 def next_id():
     return '%015d%s000' % (int(time.time() * 1000), uuid.uuid4().hex)
@@ -54,9 +54,8 @@ class FBUser(Model):
     id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
     email = StringField(ddl='varchar(50)')
     passwd = StringField(ddl='varchar(50)')
-    name = StringField(ddl='varchar(50)')
-    image = StringField(ddl='varchar(500)')
-    age = FloatField(time.time)
+    name = StringField(ddl='varchar(50)')   
+    birthday = DateField(default='2015-12-31')
     Number = TinyIntegerField(default=0)
     created_at = FloatField(default=time.time)
 #end user

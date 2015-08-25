@@ -50,7 +50,7 @@ $(function () {
                     email: email,
                     passwd: CryptoJS.SHA1(email + ':' + this.password1).toString(),
                     number: this.number,
-                    birthday: this.birthday
+                    birthday: $('[data-uk-datepicker]').val().trim()
                 }, function (err, r) {
                     if (err) {
                         return $form.showFormError(err);
