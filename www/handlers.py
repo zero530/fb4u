@@ -375,6 +375,13 @@ def home():
         '__template__': '4u_home.html'
     }
 
+@get('/manage/fbusers')
+def manage_fbusers(*, page='1'):
+    return {
+        '__template__': 'manage_fbusers.html',
+        'page_index': get_page_index(page)
+    }
+
 
 _RE_EMAIL = re.compile(r'^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$')
 _RE_SHA1 = re.compile(r'^[0-9a-f]{40}$')
