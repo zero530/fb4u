@@ -339,11 +339,11 @@ def api_register_fbuser(*, email, name, passwd, number, birthday):
         raise APIValueError('email')
     if not passwd or not _RE_SHA1.match(passwd):
         raise APIValueError('passwd')
-    if not number or not number.strip():
-        raise APIValueError('number')
+    if not number.isdigit():
+        raise APIValueError('number should > 0')
  	#if not birthday:
      #   raise APIValueError('birthday') 
-    
+    print("number:" + number)
     #validation user          
     fbusers = yield from FBUser.findAll('email=?', [email])
     if len(fbusers) > 0:
@@ -352,7 +352,7 @@ def api_register_fbuser(*, email, name, passwd, number, birthday):
     uid = next_id()
     sha1_passwd = '%s:%s' % (uid, passwd)
 
-    fbuser = FBUser(id=uid, name=name.strip(), email=email, passwd=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), number=number.strip(), birthday=birthday.strip())
+    fbuser = FBUser(id=uid, name=name.strip(), email=email, passwd=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), number=number, birthday=birthday.strip())
     yield from fbuser.save()
 
     # make session cookie:
@@ -373,6 +373,13 @@ def registerFB():
 def home():
     return {
         '__template__': '4u_home.html'
+    }
+
+@get('/manage/tbusers')
+def manage_tbusers(*, page='1'):
+    return {
+        '__template__': 'manage_tbusers.html',
+        'page_index': get_page_index(page)
     }
 
 

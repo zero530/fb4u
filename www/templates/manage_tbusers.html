@@ -1,6 +1,6 @@
 {% extends '__base__.html' %}
 
-{% block title %}用户{% endblock %}
+{% block title %}球员用户{% endblock %}
 
 {% block beforehead %}
 
@@ -62,13 +62,18 @@ $(function() {
                 </tr>
             </thead>
             <tbody>
-                <tr v-repeat="user: users" >
+                <tr v-repeat="fbuser: fbusers" >
                     <td>
-                        <span v-text="user.name"></span>
-                        <span v-if="user.admin" style="color:#d05"><i class="uk-icon-key"></i> 管理员</span>
+                        <span v-text="fbuser.name"></span>                        
                     </td>
                     <td>
-                        <a v-attr="href: 'mailto:'+user.email" v-text="user.email"></a>
+                        <span v-text="fbuser.Number"></span>                        
+                    </td>
+                    <td>
+                        <span v-text="fbuser.birthday"></span>                        
+                    </td>
+                    <td>
+                        <a v-attr="href: 'mailto:'+fbuser.email" v-text="fbuser.email"></a>
                     </td>
                     <td>
                         <span v-text="user.created_at.toDateTime()"></span>
