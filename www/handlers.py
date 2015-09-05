@@ -12,7 +12,7 @@ import markdown2
 from aiohttp import web
 
 from coroweb import get, post
-from apis import Page, APIValueError, APIResourceNotFoundError
+from apis import Page, APIValueError, APIResourceNotFoundError, CJsonEncoder
 
 from models import User, Comment, Blog, next_id, FBUser
 from config import configs
@@ -121,23 +121,23 @@ def authenticate(*, email, passwd):
         raise APIValueError('email', 'Invalid email.')
     if not passwd:
         raise APIValueError('passwd', 'Invalid password.')
-    users = yield from User.findAll('email=?', [email])
-    if len(users) == 0:
-        raise APIValueError('email', 'Email not exist.')
-    user = users[0]
+    fbusers = yield from FBUser.findAll('email=?', [email])
+    if len(fbusers) == 0:
+        raise APIValueError('email', 'Login failed, Email not exist.')
+    fbuser = fbusers[0]
     # check passwd:
     sha1 = hashlib.sha1()
-    sha1.update(user.id.encode('utf-8'))
+    sha1.update(fbuser.id.encode('utf-8'))
     sha1.update(b':')
     sha1.update(passwd.encode('utf-8'))
-    if user.passwd != sha1.hexdigest():
+    if fbuser.passwd != sha1.hexdigest():
         raise APIValueError('passwd', 'Invalid password.')
     # authenticate ok, set cookie:
     r = web.Response()
-    r.set_cookie(COOKIE_NAME, user2cookie(user, 86400), max_age=86400, httponly=True)
-    user.passwd = '******'
+    r.set_cookie(COOKIE_NAME, user2cookie(fbuser, 86400), max_age=86400, httponly=True)
+    fbuser.passwd = '******'
     r.content_type = 'application/json'
-    r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
+    r.body = json.dumps(fbuser, cls=CJsonEncoder).encode('utf-8')
     return r
 
 @get('/signout')

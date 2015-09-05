@@ -58,4 +58,8 @@ class FBUser(Model):
     birthday = DateField(default='2015-12-31')
     number = IntegerField(default=99)
     created_at = FloatField(default=time.time)
+    admin = BooleanField()
 #end user
+#
+#
+
