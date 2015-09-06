@@ -1,4 +1,4 @@
-{% extends '__base__.html' %}
+{% extends '__baseFB__.html' %}
 
 {% block title %}球员用户{% endblock %}
 
@@ -70,13 +70,13 @@ $(function() {
                         <span v-text="fbuser.Number"></span>                        
                     </td>
                     <td>
-                        <span v-text="fbuser.birthday"></span>                        
+                                               
                     </td>
                     <td>
                         <a v-attr="href: 'mailto:'+fbuser.email" v-text="fbuser.email"></a>
                     </td>
                     <td>
-                        <span v-text="user.created_at.toDateTime()"></span>
+                        <span v-text="fbuser.created_at.toDateTime()"></span>
                     </td>
                 </tr>
             </tbody>

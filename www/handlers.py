@@ -62,7 +62,7 @@ def cookie2user(cookie_str):
         uid, expires, sha1 = L
         if int(expires) < time.time():
             return None
-        user = yield from User.find(uid)
+        user = yield from FBUser.find(uid)
         if user is None:
             return None
         s = '%s-%s-%s-%s' % (uid, user.passwd, expires, _COOKIE_KEY)
@@ -138,6 +138,7 @@ def authenticate(*, email, passwd):
     fbuser.passwd = '******'
     r.content_type = 'application/json'
     r.body = json.dumps(fbuser, cls=CJsonEncoder).encode('utf-8')
+
     return r
 
 @get('/signout')
@@ -321,7 +322,10 @@ def manage_fbusers(*, page='1'):
 
 @get('/api/fbusers')
 def api_get_fbusers(*, page='1'):
+    
     page_index = get_page_index(page)
+
+    print ('api/fbuser')
     num = yield from FBUser.findNumber('count(id)')
     p = Page(num, page_index)
     if num == 0:
@@ -360,7 +364,7 @@ def api_register_fbuser(*, email, name, passwd, number, birthday):
     r.set_cookie(COOKIE_NAME, user2cookie(fbuser, 86400), max_age=86400, httponly=True)
     fbuser.passwd = '******'
     r.content_type = 'application/json'
-    r.body = json.dumps(fbuser, ensure_ascii=False).encode('utf-8')
+    r.body = json.dumps(fbuser, cls=CJsonEncoder, ensure_ascii=False).encode('utf-8')
     return r
 
 @get('/registerFB')
@@ -375,8 +379,8 @@ def home():
         '__template__': '4u_home.html'
     }
 
-@get('/manage/tbusers')
-def manage_tbusers(*, page='1'):
+@get('/manage/fbusers')
+def manage_fbusers(*, page='1'):
     return {
         '__template__': 'manage_tbusers.html',
         'page_index': get_page_index(page)
