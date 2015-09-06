@@ -56,9 +56,11 @@ $(function() {
         <table class="uk-table uk-table-hover">
             <thead>
                 <tr>
-                    <th class="uk-width-4-10">名字</th>
-                    <th class="uk-width-4-10">电子邮件</th>
-                    <th class="uk-width-2-10">注册时间</th>
+                    <th class="uk-width-1-6">名字</th>
+                    <th class="uk-width-1-6">号码</th>
+                    <th class="uk-width-1-6">出生日期</th>
+                    <th class="uk-width-2-6">电子邮件</th>
+                    <th class="uk-width-1-6">注册时间</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,10 +69,10 @@ $(function() {
                         <span v-text="fbuser.name"></span>                        
                     </td>
                     <td>
-                        <span v-text="fbuser.Number"></span>                        
+                        <span v-text="fbuser.number"></span>                        
                     </td>
                     <td>
-                                               
+                         <span v-text="fbuser.birthday"></span>                        
                     </td>
                     <td>
                         <a v-attr="href: 'mailto:'+fbuser.email" v-text="fbuser.email"></a>

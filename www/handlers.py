@@ -325,15 +325,15 @@ def api_get_fbusers(*, page='1'):
     
     page_index = get_page_index(page)
 
-    print ('api/fbuser')
+
     num = yield from FBUser.findNumber('count(id)')
     p = Page(num, page_index)
     if num == 0:
-        return dict(page=p, users=())
+        return dict(page=p, fbusers=())
     fbusers = yield from FBUser.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
     for u in fbusers:
         u.passwd = '******'
-    return dict(page=p, users=fbusers)
+    return dict(page=p, fbusers=fbusers)
 
 @post('/api/fbusers')
 def api_register_fbuser(*, email, name, passwd, number, birthday):

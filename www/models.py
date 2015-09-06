@@ -55,7 +55,7 @@ class FBUser(Model):
     email = StringField(ddl='varchar(50)')
     passwd = StringField(ddl='varchar(50)')
     name = StringField(ddl='varchar(50)')   
-    birthday = DateField(default='2015-12-31')
+    birthday = StringField(ddl='varchar(50)')
     number = IntegerField(default=99)
     created_at = FloatField(default=time.time)
     admin = BooleanField()
